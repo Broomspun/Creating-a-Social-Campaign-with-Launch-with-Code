@@ -4,6 +4,18 @@ from .models import Join
 
 # Create your views here.
 
+import uuid
+
+
+def get_ref_id():
+    ref_id = str(uuid.uuid4())[:11].replace('-', '').lower()
+
+    try:
+        id_exsit = Join.objects.get(ref_id=ref_id)
+        get_ref_id()
+    except:
+        return ref_id
+
 
 def get_ip(request):
     try:
@@ -34,6 +46,7 @@ def home(request):
         new_join_old, created = Join.objects.get_or_create(email=email)
         if created:
             new_join_old.ip_address = get_ip(request)
+            new_join_old.ref_id = get_ref_id()
             new_join_old.save()
 
     template = "home.html"

@@ -21,5 +21,6 @@ from joins import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url('', views.home, name='home')
+    url(r'^$', views.home, name='home'),
+    url(r'^(?P<ref_id>.*)$', views.share, name='share'),
 ]

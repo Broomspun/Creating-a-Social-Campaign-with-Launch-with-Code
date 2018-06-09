@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 from .forms import JoinForm
 from .models import Join
 
@@ -48,6 +48,8 @@ def home(request):
             new_join_old.ip_address = get_ip(request)
             new_join_old.ref_id = get_ref_id()
             new_join_old.save()
+        # redirect here
+        return HttpResponseRedirect("/%s" %( new_join_old.ref_id ))
 
     template = "home.html"
     context = {
@@ -56,3 +58,12 @@ def home(request):
     }
 
     return render(request, template, context)
+
+
+def share(request, ref_id):
+
+    context = {
+        "ref_id": ref_id
+    }
+
+    return render(request, 'share.html', context)
